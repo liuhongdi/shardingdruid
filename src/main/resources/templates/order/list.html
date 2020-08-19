@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--image list begin-->
+<div th:each="order_one:${order_list}" style="border-bottom-style:solid;  border-bottom-width: 1px; width:990px;height:60px;font-size:16px;overflow: hidden;border-bottom-color: #eeeeee;">
+    <div style="float:left;width:100px;overflow: hidden;" th:text="${order_one.orderId}"></div>
+    <div style="float:left;width:200px;height:60px;overflow: hidden;" th:text="${order_one.goodsName}"></div>
+    <div style="float:left;width:160px;overflow: hidden;" ><a th:href="@{/order/info/(orderid=${order_one.orderId})}">detail </a> </div>
+</div>
+<!--image list   end-->
+
+<!--page info begin-->
+<div align="center">
+    <a class="allpage"><b th:text="'共 '+ ${pageInfo.getPages()}+ ' 页'"></b></a>
+    <a  th:href="@{/order/list/(currentPage=${pageInfo.getNavigateFirstPage()},category_id=${category_id})}"  >首页</a>
+    <a th:if="${pageInfo.isHasPreviousPage()} == true" th:href="@{/order/list/(currentPage=${pageInfo.getPrePage()},category_id=${category_id})}"  >上一页</a>
+    <span th:each="i,iterStat :${#numbers.sequence(pageInfo.getNavigateFirstPage(), pageInfo.getNavigateLastPage())}" ><a th:href="@{/order/list/(currentPage=${i},category_id=${category_id})}" th:text="  ${i} "> </a> <span th:text=" ${iterStat.last}? '':'|' ">|</span> </span>
+    |
+    <a th:if="${pageInfo.isHasNextPage()} == true" th:href="@{/order/list/(currentPage=${pageInfo.getNextPage()},category_id=${category_id})}" >下一页</a>
+    <a th:href="@{/order/list/(currentPage=${pageInfo.getNavigateLastPage()},category_id=${category_id})}" >尾页</a>
+</div>
+<!--page info end-->
+
+</body>
+</html>

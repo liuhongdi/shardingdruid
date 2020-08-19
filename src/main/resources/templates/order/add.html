@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" language="JavaScript" src="/js/jquery-1.6.2.min.js"></script>
+</head>
+<body>
+<div style="width:790px;float:left;">
+    <!--main begin-->
+    <div>
+        <input type="text" name="orderid" id="orderid" style="width:200px;" placeholder="订单id" /><br/>
+        <input type="text" name="goodsname" id="goodsname" style="width:200px;" placeholder="商品名称" /><br/>
+        <input type="button" name="add" value="添加订单" onclick="add_order()"/>
+    </div>
+
+
+    <!--main   end-->
+</div>
+
+<script>
+
+
+    //保存新编辑的一个分类
+    function add_order() {
+        var orderid_val = $("#orderid").val();
+        if ( orderid_val== "") {
+            alert("订单id不可为空");
+            $("#orderid").focus();
+            return false;
+        }
+
+        var goodsname_val = $("#goodsname").val();
+        if ( goodsname_val== "") {
+            alert("商品名称不可为空");
+            $("#goodsname").focus();
+            return false;
+        }
+
+        var postdata = {
+            goodsname:$("#goodsname").val(),
+            orderid:$("#orderid").val(),
+        }
+
+        $.ajax({
+            type:"POST",
+            url:"/order/added",
+            data:postdata,
+            //返回数据的格式
+            datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+            //在请求之前调用的函数
+            // beforeSend:function(){},
+            //成功返回之后调用的函数
+            success:function(data){
+                if (data.status == 0) {
+                    //
+                    alert('save success');
+                    //go
+                    window.location.href="/order/list";
+                } else {
+                    alert("failed:"+data.msg);
+                }
+            },
+            //调用执行后调用的函数
+            complete: function(XMLHttpRequest, textStatus){
+                //alert(XMLHttpRequest.responseText);
+                //alert(textStatus);
+                //HideLoading();
+            },
+            //调用出错执行的函数
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+
+                var error_info = "readyState:"+XMLHttpRequest.readyState;
+                error_info += ";status:"+XMLHttpRequest.status;
+                error_info += ";responseText:"+XMLHttpRequest.responseText;
+                error_info += ";textStatus:"+XMLHttpRequest.textStatus;
+                error_info += ";textStatus:"+XMLHttpRequest.errorThrown;
+
+                alert(error_info);
+            }
+        });
+
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shardingdruid.demo.mapper.OrderMapper" >
+
+    <resultMap id="BaseResultMap" type="com.shardingdruid.demo.pojo.Order" >
+        <result column="orderId" property="orderId" jdbcType="BIGINT" />
+        <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        orderId, goodsName
+    </sql>
+
+
+    <insert id="insertOneOrder" parameterType="com.shardingdruid.demo.pojo.Order" >
+        INSERT ignore INTO
+        t_order
+        (orderId,goodsName)
+        VALUES
+        (#{orderId},#{goodsName})
+    </insert>
+
+    <select id="selectAllOrder" resultType="com.shardingdruid.demo.pojo.Order">
+        select * from t_order order by orderId desc
+	</select>
+    <!--
+    <select id="selectOrderCount" resultType="int">
+        select count(*) from t_order
+    </select>
+    <select id="selectNameById" resultType="String">
+        select username from user where userId=#{userId}
+	</select>
+    -->
+</mapper>
